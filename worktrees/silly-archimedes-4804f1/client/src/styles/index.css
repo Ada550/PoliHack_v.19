@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background:
+      radial-gradient(circle at 0% 0%, rgba(153, 51, 85, 0.10), transparent 35%),
+      radial-gradient(circle at 100% 0%, rgba(153, 51, 85, 0.08), transparent 35%),
+      radial-gradient(circle at 100% 100%, rgba(102, 0, 51, 0.06), transparent 40%),
+      linear-gradient(180deg, #fafafa 0%, #f4eef0 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+  *:focus-visible {
+    @apply outline-none ring-2 ring-burgundy-500/60 ring-offset-2 ring-offset-cream rounded-md;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-burgundy-700 to-burgundy-500 px-7 py-3 font-medium uppercase tracking-wider text-cream shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-burgundy-700/30 bg-white/60 px-6 py-3 font-medium tracking-wide text-burgundy-700 transition-all hover:border-burgundy-700 hover:bg-burgundy-700 hover:text-cream;
+  }
+  .card {
+    @apply relative rounded-3xl bg-white/90 backdrop-blur shadow-card overflow-hidden;
+  }
+  .card-accent::before {
+    content: '';
+    @apply absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-burgundy-700 via-burgundy-500 to-burgundy-300;
+  }
+  .input-base {
+    @apply w-full rounded-xl border border-paper bg-white px-4 py-3 text-ink transition-colors placeholder:text-ink/40 focus:border-burgundy-500 focus:outline-none;
+  }
+  .label-base {
+    @apply mb-1.5 block text-xs font-medium uppercase tracking-widest text-ink/60;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-burgundy-700/20 bg-white/70 px-3 py-1 text-xs font-medium text-burgundy-700;
+  }
+}

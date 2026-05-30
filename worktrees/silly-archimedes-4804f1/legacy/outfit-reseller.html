@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P.S. - Personal Stylist</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
+            min-height: 100vh; 
+            color: #2d2d2d;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .corner-decoration {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .corner-decoration.top-left {
+            top: -50px;
+            left: -50px;
+            background: radial-gradient(circle at top left, rgba(255,51,102,0.15) 0%, transparent 70%);
+        }
+        .corner-decoration.top-right {
+            top: -50px;
+            right: -50px;
+            background: radial-gradient(circle at top right, rgba(255,51,102,0.15) 0%, transparent 70%);
+        }
+        .corner-decoration.bottom-left {
+            bottom: -50px;
+            left: -50px;
+            background: radial-gradient(circle at bottom left, rgba(255,51,102,0.15) 0%, transparent 70%);
+        }
+        .corner-decoration.bottom-right {
+            bottom: -50px;
+            right: -50px;
+            background: radial-gradient(circle at bottom right, rgba(255,51,102,0.15) 0%, transparent 70%);
+        }
+        
+        .corner-decoration::before {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 3px solid rgba(255,51,102,0.3);
+        }
+        .top-left::before {
+            top: 0;
+            left: 0;
+            border-right: none;
+            border-bottom: none;
+            border-radius: 30px 0 0 0;
+        }
+        .top-right::before {
+            top: 0;
+            right: 0;
+            border-left: none;
+            border-bottom: none;
+            border-radius: 0 30px 0 0;
+        }
+        .bottom-left::before {
+            bottom: 0;
+            left: 0;
+            border-right: none;
+            border-top: none;
+            border-radius: 0 0 0 30px;
+        }
+        .bottom-right::before {
+            bottom: 0;
+            right: 0;
+            border-left: none;
+            border-top: none;
+            border-radius: 0 0 30px 0;
+        }
+        
+        .corner-decoration::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 2px solid rgba(255,51,102,0.2);
+            border-radius: 50%;
+        }
+        .top-left::after {
+            top: 80px;
+            left: 80px;
+        }
+        .top-right::after {
+            top: 80px;
+            right: 80px;
+        }
+        .bottom-left::after {
+            bottom: 80px;
+            left: 80px;
+        }
+        .bottom-right::after {
+            bottom: 80px;
+            right: 80px;
+        }
+        
+        .margin-decoration {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .margin-decoration.left {
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2px;
+            height: 200px;
+            background: linear-gradient(to bottom, transparent, rgba(255,51,102,0.3), transparent);
+        }
+        .margin-decoration.right {
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2px;
+            height: 200px;
+            background: linear-gradient(to bottom, transparent, rgba(255,51,102,0.3), transparent);
+        }
+        
+        .margin-decoration.left::before,
+        .margin-decoration.right::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: #660033;
+            border-radius: 50%;
+        }
+        .margin-decoration.left::before { top: 0; }
+        .margin-decoration.right::before { top: 0; }
+        
+        .margin-decoration.left::after,
+        .margin-decoration.right::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: #660033;
+            border-radius: 50%;
+        }
+        .margin-decoration.left::after { bottom: 0; }
+        .margin-decoration.right::after { bottom: 0; }
+        
+        .floating-shape {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.1;
+        }
+        .floating-shape.circle1 {
+            width: 150px;
+            height: 150px;
+            border: 3px solid #660033;
+            border-radius: 50%;
+            top: 15%;
+            right: 5%;
+            animation: float1 6s ease-in-out infinite;
+        }
+        .floating-shape.circle2 {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #660033, #993355);
+            border-radius: 50%;
+            bottom: 20%;
+            left: 8%;
+            animation: float2 8s ease-in-out infinite;
+        }
+        .floating-shape.dots {
+            width: 100px;
+            height: 100px;
+            bottom: 30%;
+            right: 8%;
+            background-image: radial-gradient(#660033 2px, transparent 2px);
+            background-size: 10px 10px;
+            animation: float3 5s ease-in-out infinite;
+        }
+        
+        @keyframes float1 {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+        @keyframes float2 {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-15px) scale(1.05); }
+        }
+        @keyframes float3 {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
+        
+        h1 { 
+            text-align: center; 
+            font-size: 3.5em; 
+            margin: 40px 0; 
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            letter-spacing: 12px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #660033 0%, #993355 50%, #660033 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+        h1::after {
+            content: 'Your Personal Styling Assistant';
+            display: block;
+            font-size: 0.25em;
+            letter-spacing: 3px;
+            color: #888;
+            font-family: 'Poppins', sans-serif;
+            margin-top: 10px;
+            background: none;
+            -webkit-text-fill-color: #888;
+        }
+        h2 { 
+            color: #660033; 
+            margin-bottom: 20px; 
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1.5em;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #660033, #993355);
+            border-radius: 2px;
+        }
+        
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.6s ease-out; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(30px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        .split-screen { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+        .card { 
+            background: white; 
+            border-radius: 24px; 
+            padding: 40px; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,51,102,0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #660033, #993355, #660033);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 80px rgba(255,51,102,0.15);
+        }
+        
+.upload-area { 
+            border: 2px dashed rgba(255,102,0,0.3); 
+            border-radius: 20px; 
+            padding: 60px 40px; 
+            text-align: center; 
+            cursor: pointer; 
+            transition: all 0.4s ease;
+            background: linear-gradient(135deg, rgba(255,102,0,0.02) 0%, rgba(255,102,0,0.05) 100%);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .upload-area:hover { 
+            border-color: #660033; 
+            background: linear-gradient(135deg, rgba(255,102,0,0.08) 0%, rgba(255,102,0,0.02) 100%);
+            transform: scale(1.02);
+        }
+        .upload-area.has-photo {
+            border-color: #660033;
+            background: linear-gradient(135deg, rgba(255,102,0,0.1) 0%, rgba(255,102,0,0.05) 100%);
+        }
+        .upload-area p {
+            font-size: 1.1em;
+            color: #666;
+            margin-top: 20px;
+        }
+        .upload-area:hover { 
+            border-color: #660033; 
+            background: linear-gradient(135deg, rgba(255,51,102,0.08) 0%, rgba(255,51,102,0.02) 100%);
+            transform: scale(1.02);
+        }
+        .upload-area p {
+            font-size: 1.1em;
+            color: #666;
+            margin-top: 20px;
+        }
+        .upload-area input { display: none; }
+        .preview-img { 
+            max-width: 100%; 
+            max-height: 250px; 
+            border-radius: 15px; 
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .form-group { margin-bottom: 25px; }
+        .form-group label { 
+            display: block; 
+            margin-bottom: 10px; 
+            color: #333; 
+            font-size: 0.95em; 
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .form-group label .required {
+            color: #660033;
+            font-weight: 700;
+        }
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 2px solid #eee;
+            background: #fafafa;
+            color: #2d2d2d;
+            font-size: 1em;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .form-group input[type="number"]:focus {
+            border-color: #660033;
+            background: white;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(255,51,102,0.1);
+        }
+        
+        .stepper { display: flex; align-items: center; gap: 15px; }
+        .stepper input {
+            flex: 1;
+            -webkit-appearance: none;
+            -moz-appearance: textfield;
+        }
+        .stepper input[type="number"]::-webkit-outer-spin-button,
+        .stepper input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .stepper-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #660033;
+            background: white;
+            color: #660033;
+            font-size: 1.8em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-weight: 300;
+        }
+        .stepper-btn:hover { 
+            background: #660033; 
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(255,51,102,0.3);
+        }
+        .stepper-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .form-group select {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 2px solid #eee;
+            background: #fafafa;
+            color: #2d2d2d;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .form-group select:focus {
+            border-color: #660033;
+            background: white;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(255,51,102,0.1);
+        }
+        
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        
+        .form-group input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 10px;
+            background: linear-gradient(to right, #660033 0%, #660033 var(--progress, 50%), #eee var(--progress, 50%), #eee 100%);
+            cursor: pointer;
+        }
+        .form-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #660033;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(255,51,102,0.3);
+            transition: all 0.2s ease;
+        }
+        .form-group input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 15px rgba(255,51,102,0.4);
+        }
+        .form-group input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #660033;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn { 
+            padding: 18px 50px; 
+            border-radius: 50px; 
+            border: none; 
+            font-size: 1.1em; 
+            cursor: pointer; 
+            transition: all 0.4s ease; 
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .btn-primary { 
+            background: linear-gradient(135deg, #660033 0%, #993355 100%); 
+            color: white; 
+            width: 100%; 
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(255,51,102,0.3);
+        }
+        .btn-primary:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 15px 40px rgba(255,51,102,0.4);
+        }
+        
+        .results-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; }
+        .product-grid { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+            max-height: 70vh; 
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        .product-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .product-grid::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        .product-grid::-webkit-scrollbar-thumb {
+            background: #660033;
+            border-radius: 3px;
+        }
+        
+        .product-card { 
+            background: white; 
+            border-radius: 16px; 
+            padding: 20px; 
+            display: flex; 
+            align-items: center; 
+            gap: 20px; 
+            border: 1px solid #eee;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+        .product-card:hover { 
+            transform: translateX(10px) scale(1.02);
+            border-color: #660033;
+            box-shadow: 0 10px 30px rgba(255,51,102,0.15);
+        }
+        .product-card img { 
+            width: 90px; 
+            height: 110px; 
+            object-fit: cover; 
+            border-radius: 12px; 
+            background: #f0f0f0;
+        }
+        .product-info { flex: 1; }
+        .product-name { 
+            font-weight: 600; 
+            margin-bottom: 8px;
+            color: #2d2d2d;
+        }
+        .product-site { 
+            font-size: 0.85em; 
+            color: #888;
+            font-weight: 500;
+        }
+        .match-badge { 
+            background: linear-gradient(135deg, #660033, #993355);
+            padding: 8px 16px; 
+            border-radius: 25px; 
+            font-size: 0.85em; 
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 3px 10px rgba(255,51,102,0.3);
+        }
+        .product-price { 
+            font-size: 1.4em; 
+            font-weight: 700; 
+            color: #660033;
+        }
+        .btn-buy { 
+            background: linear-gradient(135deg, #660033, #993355); 
+            color: white; 
+            padding: 12px 24px; 
+            border-radius: 25px; 
+            border: none; 
+            cursor: pointer; 
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255,102,0,0.3);
+            min-width: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-buy:hover { 
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255,102,0,0.4);
+        }
+        .btn-buy.added {
+            background: #4CAF50;
+            cursor: default;
+        }
+        .btn-buy.added:hover {
+            transform: none;
+            box-shadow: 0 5px 15px rgba(76,175,80,0.3);
+        }
+        .btn-buy .checkmark {
+            display: none;
+        }
+        .btn-buy.added .checkmark {
+            display: inline;
+        }
+        .btn-buy.added .btn-text {
+            display: none;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 10px;
+        }
+        .quantity-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #660033;
+            background: white;
+            color: #660033;
+            font-size: 1.2em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .quantity-btn:hover {
+            background: #660033;
+            color: white;
+        }
+        .quantity-btn.delete {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+        .quantity-btn.delete:hover {
+            background: #e74c3c;
+            color: white;
+        }
+        .quantity-value {
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #333;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .btn-change { 
+            background: transparent; 
+            border: 2px solid #660033; 
+            color: #660033; 
+            padding: 15px 40px; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            width: 100%; 
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        .btn-change:hover { 
+            background: #660033; 
+            color: white;
+            box-shadow: 0 5px 20px rgba(255,51,102,0.3);
+        }
+        
+.btn-back {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: transparent;
+            border: 2px solid #660033;
+            color: #660033;
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            width: 100%;
+        }
+        .btn-back:hover {
+            background: #660033;
+            color: white;
+            box-shadow: 0 5px 20px rgba(255,102,0,0.3);
+        }
+        .btn-back:hover {
+            background: #660033;
+            color: white;
+            box-shadow: 0 5px 20px rgba(255,51,102,0.3);
+        }
+        
+        .cart-summary { 
+            background: white; 
+            border-radius: 24px; 
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+        }
+        .cart-item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 20px 0; 
+            border-bottom: 1px solid #eee;
+        }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-total { 
+            font-size: 1.8em; 
+            text-align: right; 
+            margin: 30px 0;
+            font-weight: 700;
+            color: #660033;
+        }
+        
+        .summary-card {
+            background: linear-gradient(135deg, rgba(255,102,0,0.05) 0%, rgba(255,102,0,0.1) 100%);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(255,102,0,0.2);
+        }
+        .summary-icon {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .summary-icon svg {
+            width: 80px;
+            height: 80px;
+            padding: 15px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 5px 20px rgba(255,102,0,0.2);
+        }
+        .summary-measurements h3 {
+            font-size: 1em;
+            color: #660033;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .measurement-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .measurement-item {
+            background: white;
+            padding: 12px 15px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .measurement-item.budget {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #660033, #993355);
+            color: white;
+        }
+        .measurement-item.budget .measurement-label {
+            color: rgba(255,255,255,0.9);
+        }
+        .measurement-item.budget .measurement-value {
+            color: white;
+            font-size: 1.3em;
+        }
+        .measurement-label {
+            font-size: 0.8em;
+            color: #888;
+            font-weight: 500;
+        }
+        .measurement-value {
+            font-size: 1.1em;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .over-budget { 
+            background: linear-gradient(135deg, rgba(255,51,102,0.1), rgba(255,51,102,0.05));
+            color: #660033; 
+            padding: 20px; 
+            border-radius: 12px; 
+            text-align: center; 
+            margin-bottom: 20px;
+            font-weight: 500;
+            border: 1px solid rgba(255,51,102,0.2);
+        }
+        .btn-order { 
+            background: linear-gradient(135deg, #660033, #993355); 
+            color: white; 
+            padding: 20px 60px; 
+            border-radius: 50px; 
+            border: none; 
+            font-size: 1.2em; 
+            cursor: pointer; 
+            font-weight: 600; 
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(255,51,102,0.3);
+            transition: all 0.4s ease;
+        }
+        .btn-order:hover { 
+            transform: scale(1.03);
+            box-shadow: 0 15px 50px rgba(255,51,102,0.4);
+        }
+        
+        .success-message { 
+            text-align: center; 
+            padding: 80px 40px;
+        }
+        .success-message h2 { 
+            font-size: 3em;
+            justify-content: center;
+            display: flex;
+        }
+        .success-message h2::after { display: none; }
+        
+        .loading { 
+            text-align: center; 
+            padding: 80px 40px; 
+            font-size: 1.5em; 
+            color: #660033;
+        }
+        .spinner { 
+            width: 60px; 
+            height: 60px; 
+            border: 4px solid rgba(255,51,102,0.2); 
+            border-top-color: #660033; 
+            border-radius: 50%; 
+            animation: spin 1s linear infinite; 
+            margin: 0 auto 30px; 
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .source-tag { 
+            display: inline-block; 
+            background: linear-gradient(135deg, rgba(255,51,102,0.1), rgba(255,51,102,0.05));
+            padding: 5px 12px; 
+            border-radius: 20px; 
+            font-size: 0.8em; 
+            margin-top: 8px;
+            font-weight: 500;
+            color: #660033;
+        }
+        .source-tag.zara { background: linear-gradient(135deg, rgba(255,51,102,0.1), rgba(255,51,102,0.05)); }
+        .source-tag.hm { background: linear-gradient(135deg, rgba(255,51,102,0.1), rgba(255,51,102,0.05)); }
+        .source-tag.levis { background: linear-gradient(135deg, rgba(255,51,102,0.1), rgba(255,51,102,0.05)); }
+        .source-tag.uniqlo { background: linear-gradient(135deg, rgba(255,51,102,0.1), rgba(255,51,102,0.05)); }
+        .source-tag.mango { background: linear-gradient(135deg, rgba(255,51,102,0.1), rgba(255,51,102,0.05)); }
+        
+        .no-products { 
+            text-align: center; 
+            padding: 60px 40px; 
+            color: #888;
+        }
+        
+        .product-img {
+            width: 90px;
+            height: 110px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 768px) {
+            .split-screen, .results-layout { grid-template-columns: 1fr; }
+            h1 { font-size: 2.5em; letter-spacing: 6px; }
+            .card { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="corner-decoration top-left"></div>
+    <div class="corner-decoration top-right"></div>
+    <div class="corner-decoration bottom-left"></div>
+    <div class="corner-decoration bottom-right"></div>
+    <div class="margin-decoration left"></div>
+    <div class="margin-decoration right"></div>
+    <div class="floating-shape circle1"></div>
+    <div class="floating-shape circle2"></div>
+    <div class="floating-shape dots"></div>
+    
+    <div class="container">
+        <h1>P.S.</h1>
+        
+        <div id="loading" class="page active">
+            <div class="loading">
+                <div class="spinner"></div>
+                <div>Loading your perfect outfits...</div>
+            </div>
+        </div>
+        
+        <div id="page1" class="page">
+            <div class="split-screen">
+                <div class="card">
+                    <h2>Upload Your Photo</h2>
+                    <div class="upload-area" onclick="document.getElementById('photoInput').click()">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#660033" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                            <circle cx="12" cy="13" r="4"/>
+                        </svg>
+                        <p>Click to upload your photo <span class="required">*</span></p>
+                        <input type="file" id="photoInput" accept="image/*" onchange="previewPhoto(event)">
+                        <img id="photoPreview" class="preview-img" style="display:none;">
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>Your Measurements</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Height (cm) <span class="required">*</span></label>
+                            <div class="stepper">
+                                <button class="stepper-btn" onclick="changeValue('height', -1)">−</button>
+                                <input type="number" id="height" value="175" min="100" max="220" required>
+                                <button class="stepper-btn" onclick="changeValue('height', 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Weight (kg) <span class="required">*</span></label>
+                            <div class="stepper">
+                                <button class="stepper-btn" onclick="changeValue('weight', -1)">−</button>
+                                <input type="number" id="weight" value="70" min="30" max="200" required>
+                                <button class="stepper-btn" onclick="changeValue('weight', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Shoulder Width (cm) <span class="required">*</span></label>
+                        <input type="number" id="shoulder" value="45" min="30" max="60" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Hip Width (cm) <span class="required">*</span></label>
+                        <input type="number" id="hip" value="95" min="60" max="140" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Waist (cm) <span class="required">*</span></label>
+                        <input type="number" id="waist" value="80" min="50" max="150" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Budget (RON) <span class="required">*</span></label>
+                        <input type="number" id="budget" value="500" min="100" max="5000" step="50" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Your Gender <span class="required">*</span></label>
+                        <select id="gender" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Your Style <span class="required">*</span></label>
+                        <select id="style" required>
+                            <option value="casual">Casual</option>
+                            <option value="formal">Formal</option>
+                            <option value="business">Business</option>
+                            <option value="sport">Sport</option>
+                            <option value="streetwear">Streetwear</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="goToPage(2)">Get Started</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="page2" class="page">
+            <div class="results-layout">
+                <div class="card">
+                    <h2>Your Photo</h2>
+                    <img id="resultPhoto" style="width:100%; border-radius:15px;">
+                    <div style="margin-top:25px;">
+                        <h3 style="font-size:1.1em; color:#333; margin-bottom:10px;">Your Profile</h3>
+                        <p id="profileSummary" style="color:#666; line-height:1.8;"></p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>Recommended Products</h2>
+                    <div id="loadingProducts" class="loading" style="padding:40px;">
+                        <div class="spinner"></div>
+                        <div>Finding perfect matches...</div>
+                    </div>
+                    <div class="product-grid" id="productList"></div>
+                    <button class="btn-change" onclick="refreshProducts()">Refresh Recommendations</button>
+                    <button class="btn btn-primary" onclick="goToPage(3)">View Cart</button>
+                    <button class="btn-back" onclick="goToPage(1)">← Back to Measurements</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="page3" class="page">
+            <div class="split-screen">
+                <div class="card">
+                    <h2>Your Summary</h2>
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#660033" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <div class="summary-measurements">
+                            <h3>Body Measurements</h3>
+                            <div class="measurement-grid">
+                                <div class="measurement-item">
+                                    <span class="measurement-label">Height</span>
+                                    <span class="measurement-value" id="summaryHeight">-</span>
+                                </div>
+                                <div class="measurement-item">
+                                    <span class="measurement-label">Weight</span>
+                                    <span class="measurement-value" id="summaryWeight">-</span>
+                                </div>
+                                <div class="measurement-item">
+                                    <span class="measurement-label">Shoulder</span>
+                                    <span class="measurement-value" id="summaryShoulder">-</span>
+                                </div>
+                                <div class="measurement-item">
+                                    <span class="measurement-label">Hip</span>
+                                    <span class="measurement-value" id="summaryHip">-</span>
+                                </div>
+                                <div class="measurement-item">
+                                    <span class="measurement-label">Waist</span>
+                                    <span class="measurement-value" id="summaryWaist">-</span>
+                                </div>
+                                <div class="measurement-item">
+                                    <span class="measurement-label">Gender</span>
+                                    <span class="measurement-value" id="summaryGender">-</span>
+                                </div>
+                                <div class="measurement-item">
+                                    <span class="measurement-label">Style</span>
+                                    <span class="measurement-value" id="summaryStyle">-</span>
+                                </div>
+                                <div class="measurement-item budget">
+                                    <span class="measurement-label">Budget</span>
+                                    <span class="measurement-value" id="summaryBudget">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>Your Cart</h2>
+                    <div id="cartItems"></div>
+                    <div class="cart-total" id="cartTotal"></div>
+                    <div id="budgetWarning"></div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                        <button class="btn-change" onclick="goToPage(2)" style="margin:0;">← Back</button>
+                        <button class="btn-order" onclick="placeOrder()">Place Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="page4" class="page">
+            <div class="card">
+                <div class="success-message">
+                    <h2>✨</h2>
+                    <h2>Order Placed Successfully!</h2>
+                    <p style="color:#888; margin-top:20px; font-size:1.1em;">You will receive a confirmation email shortly.</p>
+                    <button class="btn btn-primary" onclick="location.reload()" style="margin-top:40px; width:auto; display:inline-block;">Start Over</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentPhoto = null;
+        let cart = {};
+        let scrapedProducts = [];
+        
+        function changeValue(id, delta) {
+            const input = document.getElementById(id);
+            let newValue = parseInt(input.value) + delta;
+            if (newValue >= parseInt(input.min) && newValue <= parseInt(input.max)) {
+                input.value = newValue;
+            }
+        }
+        
+let scrapeProducts = [
+  {name: "Cotton Regular-Fit Shirt", price: 24.99, site: "H&M", image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400", url: "https://www2.hm.com/en_us/men/shirts.html", gender: "men", category: "upper_body"},
+  {name: "Slim-Fit Chino Pants", price: 39.99, site: "H&M", image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400", url: "https://www2.hm.com/en_us/men/trousers.html", gender: "men", category: "lower_body"},
+  {name: "Crew-Neck Sweatshirt", price: 34.99, site: "H&M", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400", url: "https://www2.hm.com/en_us/men/hoodies-sweatshirts.html", gender: "men", category: "upper_body"},
+  {name: "Slim-Fit Denim Jeans", price: 29.99, site: "H&M", image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400", url: "https://www2.hm.com/en_us/men/jeans.html", gender: "men", category: "lower_body"},
+  {name: "Regular-Fit Polo Shirt", price: 19.99, site: "H&M", image: "https://images.unsplash.com/photo-15867901708dec16d4049613f0e4e1d3?w=400", url: "https://www2.hm.com/en_us/men/polo-shirts.html", gender: "men", category: "upper_body"},
+  {name: "Cotton Cargo Pants", price: 44.99, site: "H&M", image: "https://images.unsplash.com/photo-1624378439575-d8705ad7fd80?w=400", url: "https://www2.hm.com/en_us/men/trousers.html", gender: "men", category: "lower_body"},
+  {name: "Oversized Hoodie", price: 39.99, site: "H&M", image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400", url: "https://www2.hm.com/en_us/men/hoodies-sweatshirts.html", gender: "men", category: "upper_body"},
+  {name: "Tailored Slim-Fit Blazer", price: 89.99, site: "H&M", image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400", url: "https://www2.hm.com/en_us/men/blazers.html", gender: "men", category: "outerwear"},
+  {name: "Printed Casual Shirt", price: 29.99, site: "H&M", image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400", url: "https://www2.hm.com/en_us/men/shirts.html", gender: "men", category: "upper_body"},
+  {name: "Straight-Leg Chino Pants", price: 34.99, site: "H&M", image: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=400", url: "https://www2.hm.com/en_us/men/trousers.html", gender: "men", category: "lower_body"},
+  {name: "Bubble-Hem Jacket", price: 49.99, site: "H&M", image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400", url: "https://www2.hm.com/en_us/productpage.1337020001.html", gender: "women", category: "outerwear"},
+  {name: "Scalloped-Edge Blazer", price: 47.99, site: "H&M", image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400", url: "https://www2.hm.com/en_us/productpage.1323148002.html", gender: "women", category: "outerwear"},
+  {name: "Modal Blouse", price: 49.99, site: "H&M", image: "https://images.unsplash.com/photo-1564257631407-4deb1f99d992?w=400", url: "https://www2.hm.com/en_us/productpage.1342205002.html", gender: "women", category: "upper_body"},
+  {name: "Trench Coat", price: 44.99, site: "H&M", image: "https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=400", url: "https://www2.hm.com/en_us/productpage.1318411002.html", gender: "women", category: "outerwear"},
+  {name: "Printed Blouse", price: 19.99, site: "H&M", image: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=400", url: "https://www2.hm.com/en_us/productpage.1275342006.html", gender: "women", category: "upper_body"},
+  {name: "Embroidered Top", price: 44.99, site: "H&M", image: "https://images.unsplash.com/photo-1485968579580-b6d095142c6e?w=400", url: "https://www2.hm.com/en_us/productpage.1325002001.html", gender: "women", category: "upper_body"},
+  {name: "Oversized Cardigan", price: 84.99, site: "H&M", image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400", url: "https://www2.hm.com/en_us/productpage.1341741001.html", gender: "women", category: "outerwear"},
+  {name: "Twill Blazer", price: 54.99, site: "H&M", image: "https://images.unsplash.com/photo-1598522325074-042fd734e4c3?w=400", url: "https://www2.hm.com/en_us/productpage.1318386001.html", gender: "women", category: "outerwear"},
+  {name: "Cropped Jacket", price: 39.99, site: "H&M", image: "https://images.unsplash.com/photo-1548126032-079a0fb0099d?w=400", url: "https://www2.hm.com/en_us/productpage.1318375002.html", gender: "women", category: "outerwear"},
+  {name: "Pleated Wide Leg Pants", price: 59.9, site: "Zara", image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400", url: "https://www.zara.com/us/en/search?searchTerm=new&section=WOMAN", gender: "women", category: "lower_body"},
+  {name: "Elastic Waist Pants", price: 49.9, site: "Zara", image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400", url: "https://www.zara.com/us/en/search?searchTerm=new&section=WOMAN", gender: "women", category: "lower_body"},
+  {name: "Wide Leg Trousers", price: 49.9, site: "Zara", image: "https://images.unsplash.com/photo-1624378439575-d8705ad7fd80?w=400", url: "https://www.zara.com/us/en/search?searchTerm=new&section=WOMAN", gender: "women", category: "lower_body"},
+  {name: "Linen Blend Pants", price: 49.9, site: "Zara", image: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=400", url: "https://www.zara.com/us/en/search?searchTerm=new&section=WOMAN", gender: "women", category: "lower_body"},
+  {name: "Placid Peplum Blazer", price: 169, site: "Zara", image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400", url: "https://www.zara.com/us/en/search?searchTerm=new&section=WOMAN", gender: "women", category: "outerwear"},
+  {name: "Balloon Halter Top", price: 45.9, site: "Zara", image: "https://images.unsplash.com/photo-1564257631407-4deb1f99d992?w=400", url: "https://www.zara.com/us/en/search?searchTerm=new&section=WOMAN", gender: "women", category: "upper_body"},
+  {name: "Balloon Pants", price: 45.9, site: "Zara", image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400", url: "https://www.zara.com/us/en/search?searchTerm=new&section=WOMAN", gender: "women", category: "lower_body"},
+  {name: "Knit Top", price: 49.9, site: "Zara", image: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=400", url: "https://www.zara.com/us/en/search?searchTerm=new&section=WOMAN", gender: "women", category: "upper_body"},
+  {name: "Halter Dress", price: 69.9, site: "Zara", image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400", url: "https://www.zara.com/us/en/search?searchTerm=new&section=WOMAN", gender: "women", category: "dress"},
+  {name: "Faux Leather Jacket", price: 129, site: "Zara", image: "https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=400", url: "https://www.zara.com/us/en/search?searchTerm=new&section=WOMAN", gender: "women", category: "outerwear"}
+];
+        
+        function getRandomOutfit() {
+    const gender = document.getElementById('gender').value;
+    const filtered = scrapeProducts.filter(p => p.gender === gender);
+    return filtered.sort(() => 0.5 - Math.random()).slice(0, 4);
+}
+        
+        async function fetchProducts() {
+    const genderSelect = document.getElementById('gender').value;
+    const genderMap = { 'male': 'men', 'female': 'women', 'other': 'men' };
+    const gender = genderMap[genderSelect] || 'men';
+    const filtered = scrapeProducts.filter(p => p.gender === gender);
+    const upperBody = filtered.filter(p => p.category === 'upper_body');
+    const lowerBody = filtered.filter(p => p.category === 'lower_body');
+    const dresses = filtered.filter(p => p.category === 'dress');
+    
+    if (gender === 'women') {
+        const shuffledDresses = dresses.sort(() => 0.5 - Math.random()).slice(0, 2);
+        const shuffledUpper = upperBody.sort(() => 0.5 - Math.random()).slice(0, 2);
+        const shuffledLower = lowerBody.sort(() => 0.5 - Math.random()).slice(0, 2);
+        return [...shuffledDresses, ...shuffledUpper.slice(0, 1), ...shuffledLower.slice(0, 2)];
+    } else {
+        const shuffledUpper = upperBody.sort(() => 0.5 - Math.random()).slice(0, 2);
+        const shuffledLower = lowerBody.sort(() => 0.5 - Math.random()).slice(0, 2);
+        return [...shuffledUpper, ...shuffledLower];
+    }
+}
+        
+        function getSiteClass(site) {
+            return 'source-tag ' + site.toLowerCase().replace('.', '');
+        }
+        
+        function previewPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentPhoto = e.target.result;
+                    document.getElementById('photoPreview').src = currentPhoto;
+                    document.getElementById('photoPreview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function goToPage(num) {
+            if (num === 2) {
+                const height = document.getElementById('height').value;
+                const weight = document.getElementById('weight').value;
+                const shoulder = document.getElementById('shoulder').value;
+                const hip = document.getElementById('hip').value;
+                const waist = document.getElementById('waist').value;
+                const budget = document.getElementById('budget').value;
+                const gender = document.getElementById('gender').value;
+                const style = document.getElementById('style').value;
+                
+                if (!currentPhoto) {
+                    alert('Please upload your photo first!');
+                    return;
+                }
+                
+                if (!height || !weight || !shoulder || !hip || !waist || !budget || !gender || !style) {
+                    alert('Please fill in all required fields!');
+                    return;
+                }
+            }
+            
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(num === 1 ? 'page1' : num === 2 ? 'page2' : num === 3 ? 'page3' : 'page4').classList.add('active');
+            
+            if (num === 2) showResults();
+            if (num === 3) showCart();
+        }
+        
+        async function showResults() {
+            document.getElementById('resultPhoto').src = currentPhoto || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400"><rect fill="%23f0f0f0" width="300" height="400"/><text fill="%23999" font-size="20" x="50%25" y="50%25" text-anchor="middle">No Photo</text></svg>';
+            
+            const height = document.getElementById('height').value;
+            const weight = document.getElementById('weight').value;
+            const gender = document.getElementById('gender').value;
+            const style = document.getElementById('style').value;
+            document.getElementById('profileSummary').innerHTML = 
+                `Height: ${height}cm<br>Weight: ${weight}kg<br>Gender: ${gender.charAt(0).toUpperCase() + gender.slice(1)}<br>Style: ${style.charAt(0).toUpperCase() + style.slice(1)}`;
+            
+            document.getElementById('loadingProducts').style.display = 'block';
+            document.getElementById('productList').innerHTML = '';
+            
+            scrapedProducts = await fetchProducts();
+            
+            document.getElementById('loadingProducts').style.display = 'none';
+            
+            const list = document.getElementById('productList');
+            
+            if (scrapedProducts.length === 0) {
+                document.getElementById('productList').innerHTML = '<div class="no-products">No products found. Please refresh.</div>';
+                return;
+            }
+            
+            list.innerHTML = scrapedProducts.map((p, i) => `
+                <div class="product-card">
+                    <img src="${p.image || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%22100%22><rect fill=%22%23f0f0f0%22 width=%2280%22 height=%22100%22/></svg>'}" alt="${p.name}">
+                    <div class="product-info">
+                        <div class="product-name">${p.name}</div>
+                        <span class="${getSiteClass(p.site)}">${p.site}</span>
+                    </div>
+                    <div class="match-badge">${85 + Math.floor(Math.random() * 15)}% Match</div>
+                    <div class="product-price">${p.price} RON</div>
+                    <button id="btn-buy-${i}" class="btn-buy ${cart[i] ? 'added' : ''}" onclick="addToCart(${i})">
+                        <span class="btn-text">Add</span>
+                        <span class="checkmark">✓</span>
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        async function refreshProducts() {
+            document.getElementById('loadingProducts').style.display = 'block';
+            document.getElementById('productList').innerHTML = '';
+            
+            scrapedProducts = await fetchProducts();
+            
+            document.getElementById('loadingProducts').style.display = 'none';
+            await showResults();
+        }
+        
+        function addToCart(index) {
+            const product = scrapedProducts[index];
+            if (!cart[index]) {
+                cart[index] = { ...product, quantity: 1 };
+            } else {
+                cart[index].quantity++;
+            }
+            
+            const btn = document.getElementById(`btn-buy-${index}`);
+            if (btn) {
+                btn.classList.add('added');
+            }
+        }
+        
+        function showCart() {
+            const height = document.getElementById('height').value;
+            const weight = document.getElementById('weight').value;
+            const gender = document.getElementById('gender').value;
+            const shoulder = document.getElementById('shoulder').value;
+            const hip = document.getElementById('hip').value;
+            const waist = document.getElementById('waist').value;
+            const budget = document.getElementById('budget').value;
+            const style = document.getElementById('style').value;
+            
+            document.getElementById('summaryHeight').innerHTML = height + ' cm';
+            document.getElementById('summaryWeight').innerHTML = weight + ' kg';
+            document.getElementById('summaryShoulder').innerHTML = shoulder + ' cm';
+            document.getElementById('summaryHip').innerHTML = hip + ' cm';
+            document.getElementById('summaryWaist').innerHTML = waist + ' cm';
+            document.getElementById('summaryGender').innerHTML = gender.charAt(0).toUpperCase() + gender.slice(1);
+            document.getElementById('summaryStyle').innerHTML = style.charAt(0).toUpperCase() + style.slice(1);
+            document.getElementById('summaryBudget').innerHTML = budget + ' RON';
+            
+            const cartItems = Object.values(cart);
+            let total = 0;
+            
+            if (cartItems.length === 0) {
+                document.getElementById('cartItems').innerHTML = '<div class="no-products">Your cart is empty. Add some products!</div>';
+            } else {
+                document.getElementById('cartItems').innerHTML = cartItems.map((p, i) => {
+                    const itemTotal = p.price * p.quantity;
+                    total += itemTotal;
+                    return `
+                    <div class="cart-item">
+                        <div style="flex:1;">
+                            <strong style="color:#333;">${p.name}</strong><br>
+                            <span style="color:#888;">From ${p.site}</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="updateCartQuantity('${p.name}', -1)">−</button>
+                            <span class="quantity-value">${p.quantity}</span>
+                            <button class="quantity-btn" onclick="updateCartQuantity('${p.name}', 1)">+</button>
+                            <button class="quantity-btn delete" onclick="removeFromCart('${p.name}')">🗑</button>
+                        </div>
+                        <div style="color:#660033; font-weight:600; min-width:80px; text-align:right;">
+                            ${itemTotal} RON
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+            
+            document.getElementById('cartTotal').innerHTML = `Total: ${total} RON`;
+            
+            const budgetVal = parseInt(document.getElementById('budget').value);
+            if (total > budgetVal) {
+                document.getElementById('budgetWarning').innerHTML = 
+                    `<div class="over-budget">⚠️ Budget exceeded by ${total - budgetVal} RON!</div>`;
+            } else {
+                document.getElementById('budgetWarning').innerHTML = '';
+            }
+        }
+        
+        function updateCartQuantity(productName, delta) {
+            for (let key in cart) {
+                if (cart[key].name === productName) {
+                    cart[key].quantity += delta;
+                    if (cart[key].quantity <= 0) {
+                        delete cart[key];
+                    }
+                    break;
+                }
+            }
+            showCart();
+        }
+        
+        function removeFromCart(productName) {
+            for (let key in cart) {
+                if (cart[key].name === productName) {
+                    delete cart[key];
+                    break;
+                }
+            }
+            showCart();
+        }
+        
+        function placeOrder() {
+            goToPage(4);
+        }
+        
+        window.onload = async function() {
+            await refreshProducts();
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page1').classList.add('active');
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(curl -sS http://localhost:5000/api/health)",
+      "Bash(curl -sS 'http://localhost:5000/api/products?gender=women&category=outerwear')",
+      "Bash(curl -sS -X POST http://localhost:5000/api/recommend -H 'Content-Type: application/json' -d '{\"gender\":\"men\",\"style\":\"Casual\",\"bodyType\":\"Athletic\",\"budget\":150}')",
+      "Bash(curl -sS -X POST http://localhost:5000/api/recommend -H 'Content-Type: application/json' -d '{\"gender\":\"women\",\"style\":\"Casual\",\"bodyType\":\"Average\",\"budget\":200}')",
+      "Bash(curl -sS http://localhost:5173)",
+      "Bash(curl -sS http://localhost:5173/api/health)",
+      "Bash(curl -sS -X POST http://localhost:5000/api/tryon -H 'Content-Type: application/json' -d '{\"humanImg\":\"https://segmind-sd-models.s3.amazonaws.com/display_images/idm-ip.png\",\"garmImg\":\"https://segmind-sd-models.s3.amazonaws.com/display_images/idm-viton-dress.png\",\"category\":\"dress\"}')"
+    ]
+  }
+}
